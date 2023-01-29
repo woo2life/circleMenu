@@ -84,6 +84,7 @@ jQuery(function($){
 
             $(".circleMenu").css("transform","rotate("+(result/2)+"deg");
             $(".circleMenu a").css("transform","rotate("+(result2/2)+"deg");
+            $(".circleMenu button").css("transform","rotate("+(result2/2)+"deg");
         }
     });
 
@@ -99,11 +100,25 @@ jQuery(function($){
 
          $(".circleMenu").css("transform","rotate("+(beforeVal/2)+"deg");
          $(".circleMenu a").css("transform","rotate("+(beforeVal2/2)+"deg");
+         $(".circleMenu button").css("transform","rotate("+(beforeVal2/2)+"deg");
+    });
+
+    $(".circleMenu button").on("click",function(){
+        $(".circleMenu").toggleClass("on");
+        setTimeout(function(){
+            x1 = $(".circleMenu").outerWidth()/2;
+            y1 = $(".circleMenu").outerWidth()/2;
+            offsetX = $(".circleMenu").offset().left;
+            offsetY = $(".circleMenu").offset().top;
+            result = 0;
+        },300);
     });
 });
         </script>
         <style>
-.circleMenu{position:fixed; left:50%; top:50%; width:90vw; height:90vw; margin:-45vw 0 0 -45vw; border-radius:100%; background:#f0f0f0;}
+            html,body{overflow:hidden; height:100vh; scroll-behavior:auto;}
+.circleMenu{position:fixed; left:50%; bottom:10px; width:50px; height:50px; overflow:hidden; margin-left:-25px; border-radius:100%; background:#f0f0f0;}
+.circleMenu.on{ margin-left:-45vw; width:90vw; height:90vw;}
 .circleMenu button{position:absolute; left:50%; top:50%; margin:-25px 0 0 -25px; width:50px; height:50px; text-align:center; line-height:48px; color:#fff; background:#000; border-radius:100%;}
 .circleMenu.end{transition:all .3s;}
 .circleMenu a{position:absolute;}
