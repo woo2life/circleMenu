@@ -1,0 +1,147 @@
+
+<!DOCTYPE HTML>
+<html lang="ko">
+		<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.3, maximum-scale=1.6, user-scalable=yes, target-densitydpi=medium-dpi" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+		<meta name="Author" content="Woo Hee Jeong" />
+		<meta name="Keywords" content="Circle Menu" />
+		<meta name="Description" content="Circle Menu" />
+		<meta http-equiv="refresh" content="6000">
+		<title>Circle Menu</title>
+		<link rel="shortcut icon" href="/images/custom/favicon_woo2life_skytree.ico" type="image/x-icon">
+		<link rel="icon" href="/images/custom/favicon_woo2life_skytree.ico" type="image/x-icon">
+		<!-- <link rel="apple-touch-startup-image" href="/images/custom/splash.png" />
+		<link rel="apple-touch-icon" href="/images/custom/mobile_icon.png" /> -->
+		<link rel="stylesheet" type="text/css" href="/css/common.css" media="only screen and (min-width: 800px)" /> <!-- IE6,7에서는 인식못함 -->
+		<link rel="stylesheet" type="text/css" href="/css/m_common.css" media="only screen and (max-width: 800px)"  />
+		<link rel="stylesheet" type="text/css" href="/css/common.css" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script>
+jQuery(function($){
+    var rotateValT = 0;
+    
+    var startX = 0;
+    var startY = 0;
+
+    var x1 = $(".circleMenu").outerWidth()/2;
+    var y1 = $(".circleMenu").outerWidth()/2;
+    var x2 = 0;
+    var y2 = 0;
+    var x3 = 0;
+    var y3 = 0;
+    var result = 0;
+    var beforeVal = 0;
+
+    var offsetX = $(".circleMenu").offset().left;
+    var offsetY = $(".circleMenu").offset().top;
+
+    $(document).bind("touchstart", function(e){
+        if($(e.target).hasClass("circleMenu") || $(e.target).closest("div").hasClass("circleMenu")){
+            $(".circleMenu").removeClass("end");
+
+            startX = e.originalEvent.changedTouches[0].clientX - offsetX;
+            startY = e.originalEvent.changedTouches[0].clientY - offsetY;
+
+            x3 = startX - x1;
+            y3 = startY - y1;
+
+            rotateValT2 = Math.atan2(x3,y3) * (360/Math.PI);
+
+            if(rotateValT2 < 0){
+                rotateValT2 = Math.abs(rotateValT2);
+            }else{
+                rotateValT2 = -rotateValT2;
+            }
+        }
+    });
+
+
+    $(document).bind("touchmove", function(e){
+        if($(e.target).hasClass("circleMenu") || $(e.target).closest("div").hasClass("circleMenu")){
+            touchStartX = e.originalEvent.changedTouches[0].clientX - offsetX;
+            touchStartY = e.originalEvent.changedTouches[0].clientY - offsetY;
+
+            x2 = touchStartX;
+            y2 = touchStartY;
+
+            x3 = x2 - x1;
+            y3 = y2 - y1;
+
+             rotateValT = Math.atan2(x3,y3) * (360/Math.PI);
+
+            if(rotateValT < 0){
+                rotateValT = Math.abs(rotateValT);
+            }else{
+                rotateValT = -rotateValT;
+            }
+
+            result = beforeVal + (rotateValT - rotateValT2);
+            result2 = -result;
+
+            $(".circleMenu").css("transform","rotate("+(result/2)+"deg");
+            $(".circleMenu a").css("transform","rotate("+(result2/2)+"deg");
+        }
+    });
+
+    $(document).bind("touchend", function(e){
+        $(".circleMenu").addClass("end");
+
+        beforeVal = result;
+
+        endResult = beforeVal / 90;
+
+         beforeVal = 90 * Math.round(endResult);
+        beforeVal2 = -beforeVal;
+
+         $(".circleMenu").css("transform","rotate("+(beforeVal/2)+"deg");
+         $(".circleMenu a").css("transform","rotate("+(beforeVal2/2)+"deg");
+    });
+});
+        </script>
+        <style>
+.circleMenu{position:fixed; left:50%; top:50%; width:90vw; height:90vw; margin:-45vw 0 0 -45vw; border-radius:100%; background:#f0f0f0;}
+.circleMenu button{position:absolute; left:50%; top:50%; margin:-25px 0 0 -25px; width:50px; height:50px; text-align:center; line-height:48px; color:#fff; background:#000; border-radius:100%;}
+.circleMenu.end{transition:all .3s;}
+.circleMenu a{position:absolute;}
+.circleMenu.end a{transition:all .3s;}
+.circleMenu a span{position:absolute; left:0; top:0; width:50px; height:50px; margin:-25px 0 0 -25px; text-align:center; line-height:48px; font-weight:bold; color:#fff; border-radius:100%;}
+.circleMenu a:nth-child(1){left:25%; top:25%;}
+.circleMenu a:nth-child(1) span{background:red;}
+.circleMenu a:nth-child(2){left:50%; top:12.5%;}
+.circleMenu a:nth-child(2) span{background:#B83900;}
+.circleMenu a:nth-child(3){right:25%; top:25%;}
+.circleMenu a:nth-child(3) span{background:orange;}
+.circleMenu a:nth-child(4){left:12.5%; top:50%;}
+.circleMenu a:nth-child(4) span{background:green;}
+.circleMenu a:nth-child(5){right:12.5%; top:50%;}
+.circleMenu a:nth-child(5) span{background:blue;}
+.circleMenu a:nth-child(6){left:25%; bottom:25%;}
+.circleMenu a:nth-child(6) span{background:#00256A;}
+.circleMenu a:nth-child(7){left:50%; bottom:12.5%;}
+.circleMenu a:nth-child(7) span{background:#F701FF;}
+.circleMenu a:nth-child(8){right:25%; bottom:25%;}
+.circleMenu a:nth-child(8) span{background:#00E40F;}
+.circleMenuDim{position:fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,.2);}
+        </style>
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2918488697723599" crossorigin="anonymous"></script>
+	</head>
+	<body>
+        <div class="circleMenu">
+            <a href="javascript:;"><span>menu1</span></a>
+            <a href="javascript:;"><span>menu2</span></a> 
+            <a href="javascript:;"><span>menu3</span></a>
+            <a href="javascript:;"><span>menu4</span></a>
+            <a href="javascript:;"><span>menu5</span></a>
+            <a href="javascript:;"><span>menu6</span></a>
+            <a href="javascript:;"><span>menu7</span></a>
+            <a href="javascript:;"><span>menu8</span></a>
+            <button>click</button>
+        </div>
+        <!-- <div class="circleMenuDim"></div> -->
+    </body>
+</html>
